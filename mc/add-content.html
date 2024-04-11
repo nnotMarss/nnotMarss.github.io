@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta property="og:title" content="notMars.xyz - Homepage">
+  <meta property="og:url" content="https://www.notmars.xyz/">
+  <meta property="og:type" content="website">
+  <meta property="og:description" content="Hello, hi! This is Mars's homepage! Feel welcomed to explore this place top-to-bottom!">
+  <meta property="og:locale" content="en_AU">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Fira+Code:wght@300..700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="shortcut icon" href="https://cdn.ntmrs.xyz/@WEBSERVER/web/ASSETS/icon_v1.jpg" type="image/x-icon">
+  <link rel="stylesheet" href="https://beta.www.notmars.xyz/saturn.css">
+  <title>notMars.xyz - Homepage</title>
+  </head>
+<body>
+    <div class="header">
+        <!-- <a class="header-menu stylized-smooth style-bold" onclick="hideHead('hide')" href="#"><span class="material-symbols-rounded">menu</span> Menu</a> -->
+        <a hID="hide" class="header-link stylized-smooth style-bold" dummy="index.html" href="https://notmars.xyz/"><span class="material-symbols-rounded">home</span> Homepage</a>
+        <a hID="hide" class="header-link stylized-smooth style-bold" dummy="about.html" href="#"><span class="material-symbols-rounded">account_box</span> About Me</a>
+        <a hID="hide" class="header-link stylized-smooth style-bold" dummy="contact.html" href="#"><span class="material-symbols-rounded">alternate_email</span> Contact Me</a>
+        <a hID="hide" class="header-link stylized-smooth style-bold" dummy="projects.html" href="#"><span class="material-symbols-rounded">dashboard</span> Projects</a>
+        <a hID="hide" class="header-link stylized-smooth style-bold" dummy="downloads.html" href="#"><span class="material-symbols-rounded">cloud_download</span> Downloads</a>
+
+        <a hID="hide" class="header-bottom"></a>
+        <a hID="hide" class="header-link stylized-smooth style-bold stylized-button" href="#"><span class="material-symbols-rounded">settings</span> Preferences</a>
+        <a hID="hide" class="header-link stylized-smooth style-bold stylized-button" href="#"><span class="material-symbols-rounded">dark_mode</span> Dark Mode</a>
+    </div>
+
+    <div class="container full-screen">
+        <div class="cntr-notif" id="submit-ask">
+          <p class="pop-title style-bold">Submit Warning!</p>
+          <hr class="pop-hr">
+          <p class="pop-text style-def size-big">Please read this message before publishing anything:</p>
+          <p class="pop-subtext style-def">There is NO WAY of deleting your submitted answer!</p>
+          <p class="pop-subtext style-def">Please do NOT publish any personal data, like your real name, address, phone number, etc.</p>
+          <p class="pop-subtext style-def">Even though this is going to my private database (discord channel qwq), don't do that!</p>
+          <p class="pop-text style-def">Are you 100% sure, that you want to submit this request?</p>
+          <p class="pop-text style-def size-big">Then<a href="#" class="style-bold stylized-clean stylized-smooth stylized-button" onclick="showNotification('submit-ask')">submit</a>your poll! This time for real.. haha</p>
+        </div>
+      <div class="main">
+        <div class="content style-def">
+          <h1 class="style-bold">Welcome travelers!</h1>
+          <h2 class="style-bold">Wanna share your cool mod idea? Fill this poll! :3 <b class="blank-char">you shouldn't see this txt</b></h2>
+          <hr>
+          <form id="pollForm">
+            <p><label for="name">Your name:</label></p>
+            <p><textarea class="stylized-smooth inp-inline" name="1" id="name" cols="50" rows="1"></textarea></p>
+            <p><label for="desc">What should we add/remove:</label></p>
+            <p><textarea class="stylized-smooth inp-inline" name="1" id="desc" cols="50" rows="15"></textarea></p>
+            <p class="size-bigger">Ready? Then<a href="#" class="style-bold stylized-clean stylized-smooth stylized-button" onclick="showNotification('submit-ask')">submit</a>your poll! Thanks pwp</p>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer">
+      <p> <a class="stylized stylized-smooth stylized-clean style-def"><span class="material-symbols-rounded" style="font-size: 11px;">copyright</span> 2024 notMars</a></p>
+    </div>
+  <script src="https://beta.www.notmars.xyz/saturnNotif.js"></script>
+  <style>
+    .size-big {
+      font-size: large;
+    }
+
+    .size-bigger {
+      font-size: larger;
+    }
+
+    .blank-char {
+      font-size: small;
+      color: rgba(255, 255, 255, 0);
+    }
+
+    .inp-inline {
+      font-size:large;
+      border: none;
+      background-color: var(--strn-main1-lmild);
+      color: var(--strn-white);
+      margin: 10px;
+      border-radius: 8px;
+      /* display: flex; */
+      width: 100%;
+      height: 100%;
+    }
+
+    .inp-inline:hover {
+      background-color: var(--strn-main1-light);
+    }
+
+    .inp-inline:focus {
+      outline: none;
+      background-color: var(--strn-main1-light);
+    }
+  </style>
+  <script>
+    document.getElementById("submit-ask").addEventListener("click", function(event) { 
+        event.preventDefault();
+        const desc = document.getElementById("desc").value;
+        const name = document.getElementById("name").value;
+
+        function discord_message(webHookURL, message, username) {
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", webHookURL, true);
+            xhr.setRequestHeader('Content-Type', 'application/json');
+            xhr.send(JSON.stringify({
+                "avatar_url": "https://cdn.ntmrs.xyz/@WEBSERVER/web/ASSETS/icon_v1.jpg",
+                'content': "Hey <@1171734246067544137>! Here's a new answer!",
+                "embeds": [{
+                  "color": 16711422,
+                  "title": "From: ***"+username+"***!",
+                  "description": "```\n"+message+"\n```",
+                  "author": {
+                    "name": "ntmrs.xyz/@/MP",
+                    "url": "https://ntmrs.xyz/@/MP"
+                  },
+                }],
+                'username':'mc.notmars.xyz',
+            }));
+        }
+        discord_message("https://discord.com/api/webhooks/1228038102933704876/lQQzu4bB9j3897cOLgy6fNsPYng94STEKPv3TjnovXoEyqidKQ7XSpQ4DtZAiFK24ZJR",desc,name)
+
+    });
+</script>
+  </body>
+
+</html>

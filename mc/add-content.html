@@ -20,7 +20,6 @@
   </head>
 <body>
     <div class="header">
-        <!-- <a class="header-menu stylized-smooth style-bold" onclick="hideHead('hide')" href="#"><span class="material-symbols-rounded">menu</span> Menu</a> -->
         <a hID="hide" class="header-link stylized-smooth style-bold" dummy="index.html" href="https://notmars.xyz/"><span class="material-symbols-rounded">home</span> Homepage</a>
         <a hID="hide" class="header-link stylized-smooth style-bold" dummy="about.html" href="#"><span class="material-symbols-rounded">account_box</span> About Me</a>
         <a hID="hide" class="header-link stylized-smooth style-bold" dummy="contact.html" href="#"><span class="material-symbols-rounded">alternate_email</span> Contact Me</a>
@@ -41,7 +40,13 @@
           <p class="pop-subtext style-def">Please do NOT publish any personal data, like your real name, address, phone number, etc.</p>
           <p class="pop-subtext style-def">Even though this is going to my private database (discord channel qwq), don't do that!</p>
           <p class="pop-text style-def">Are you 100% sure, that you want to submit this request?</p>
-          <p class="pop-text style-def size-big">Then<a href="#" class="style-bold stylized-clean stylized-smooth stylized-button" onclick="showNotification('submit-ask')">submit</a>your poll! This time for real.. haha</p>
+          <p class="pop-text style-def size-big">Then<a href="#" class="style-bold stylized-clean stylized-smooth stylized-button" onclick="hideNotification('submit-ask'); showNotification('submit-after')">submit</a>your poll! This time for real.. haha</p>
+        </div>
+        <div class="cntr-notif" id="submit-after">
+          <p class="pop-title style-bold">Poll Sent!</p>
+          <hr class="pop-hr">
+          <p class="pop-text style-def size-big">Thank you for your feedback!</p>
+          <span class="close-btn"><a onclick="hideNotification('submit-after')" class="style-bold stylized-clean stylized-smooth stylized-button">Close</a></span>
         </div>
       <div class="main">
         <div class="content style-def">
@@ -49,10 +54,12 @@
           <h2 class="style-bold">Wanna share your cool mod idea? Fill this poll! :3 <b class="blank-char">you shouldn't see this txt</b></h2>
           <hr>
           <form id="pollForm">
+            <p>Here you can submit your mod idea for our server<a class="stylized-clean stylized-smooth style-bold">mc.notmars.xyz</a>!</p>
+            <p>What do we expect? A brief description of what you'd want to be added/removed, if you'd like any specific mod, you may attach a link to any mod hosting website, like CurseForge, Modrinth, etc; If you'll decide not to add any specific details, nor links, your submitted poll WILL be discarded. Thanks!</p>
             <p><label for="name">Your name:</label></p>
-            <p><textarea class="stylized-smooth inp-inline" name="1" id="name" cols="50" rows="1"></textarea></p>
+            <p><textarea class="stylized-smooth inp-inline" name="1" id="name" cols="50" rows="1" placeholder="Enter your name here..."></textarea></p>
             <p><label for="desc">What should we add/remove:</label></p>
-            <p><textarea class="stylized-smooth inp-inline" name="1" id="desc" cols="50" rows="15"></textarea></p>
+            <p><textarea class="stylized-smooth inp-inline" name="1" id="desc" cols="50" rows="15" placeholder="Enter your message here..."></textarea></p>
             <p class="size-bigger">Ready? Then<a href="#" class="style-bold stylized-clean stylized-smooth stylized-button" onclick="showNotification('submit-ask')">submit</a>your poll! Thanks pwp</p>
           </form>
         </div>
@@ -84,7 +91,7 @@
       color: var(--strn-white);
       margin: 10px;
       border-radius: 8px;
-      /* display: flex; */
+      text-indent: 10px;
       width: 100%;
       height: 100%;
     }
@@ -97,12 +104,18 @@
       outline: none;
       background-color: var(--strn-main1-light);
     }
+
+    .inp-inline::placeholder {
+      color: var(--strn-dark);
+      font-size: small;
+      text-indent: 10px;
+    }
   </style>
   <script>
     document.getElementById("submit-ask").addEventListener("click", function(event) { 
         event.preventDefault();
-        const desc = document.getElementById("desc").value;
-        const name = document.getElementById("name").value;
+        desc = document.getElementById("desc").value;
+        name = document.getElementById("name").value;
 
         function discord_message(webHookURL, message, username) {
             var xhr = new XMLHttpRequest();
@@ -123,8 +136,16 @@
                 'username':'mc.notmars.xyz',
             }));
         }
-        discord_message("https://discord.com/api/webhooks/1228038102933704876/lQQzu4bB9j3897cOLgy6fNsPYng94STEKPv3TjnovXoEyqidKQ7XSpQ4DtZAiFK24ZJR",desc,name)
 
+        if (desc == "") {
+          desc = "Empty"
+        };
+        if (name == "") {
+          name = "Unknown"
+        };
+        discord_message("https://discord.com/api/webhooks/1228038102933704876/lQQzu4bB9j3897cOLgy6fNsPYng94STEKPv3TjnovXoEyqidKQ7XSpQ4DtZAiFK24ZJR",desc,name)
+        document.getElementById("desc").value = ""
+        document.getElementById("name").value = ""
     });
 </script>
   </body>

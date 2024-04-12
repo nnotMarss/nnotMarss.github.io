@@ -40,13 +40,23 @@
           <p class="pop-subtext style-def">Please do NOT publish any personal data, like your real name, address, phone number, etc.</p>
           <p class="pop-subtext style-def">Even though this is going to my private database (discord channel qwq), don't do that!</p>
           <p class="pop-text style-def">Are you 100% sure, that you want to submit this request?</p>
-          <p class="pop-text style-def size-big">Then<a href="#" class="style-bold stylized-clean stylized-smooth stylized-button" onclick="hideNotification('submit-ask'); showNotification('submit-after')">submit</a>your poll! This time for real.. haha</p>
+          <p class="pop-text style-def size-big">Then<a id="submit-ask-btn" href="#" class="style-bold stylized-clean stylized-smooth stylized-button" onclick="hideNotification('submit-ask');">submit</a>your poll! This time for real.. haha</p>
         </div>
-        <div class="cntr-notif" id="submit-after">
+
+        <div class="cntr-notif" id="submit-success">
           <p class="pop-title style-bold">Poll Sent!</p>
           <hr class="pop-hr">
           <p class="pop-text style-def size-big">Thank you for your feedback!</p>
-          <span class="close-btn"><a onclick="hideNotification('submit-after')" class="style-bold stylized-clean stylized-smooth stylized-button">Close</a></span>
+          <span class="close-btn"><a onclick="hideNotification('submit-success')" class="style-bold stylized-clean stylized-smooth stylized-button">Close</a></span>
+        </div>
+
+        <div class="cntr-notif" id="submit-failed">
+          <p class="pop-title style-bold">Poll Wasn't Sent!</p>
+          <hr class="pop-hr">
+          <p class="pop-text style-def size-big">Looks like the description was empty!</p>
+          <p class="pop-subtext style-def size-big">You might want to add some stuff to it..</p>
+          <p class="pop-subtext style-def size-big">Try again later!</p>
+          <span class="close-btn"><a onclick="hideNotification('submit-failed')" class="style-bold stylized-clean stylized-smooth stylized-button">Close</a></span>
         </div>
       <div class="main">
         <div class="content style-def">
@@ -57,9 +67,9 @@
             <p>Here you can submit your mod idea for our server<a class="stylized-clean stylized-smooth style-bold">mc.notmars.xyz</a>!</p>
             <p>What do we expect? A brief description of what you'd want to be added/removed, if you'd like any specific mod, you may attach a link to any mod hosting website, like CurseForge, Modrinth, etc; If you'll decide not to add any specific details, nor links, your submitted poll WILL be discarded. Thanks!</p>
             <p><label for="name">Your name:</label></p>
-            <p><textarea class="stylized-smooth inp-inline" name="1" id="name" cols="50" rows="1" placeholder="Enter your name here..."></textarea></p>
-            <p><label for="desc">What should we add/remove:</label></p>
-            <p><textarea class="stylized-smooth inp-inline" name="1" id="desc" cols="50" rows="15" placeholder="Enter your message here..."></textarea></p>
+            <p><textarea class="stylized-smooth inp-inline" name="1" id="name" cols="50" rows="1" placeholder="Enter your name here... (Optional)"></textarea></p>
+            <p><label for="desc">What should we add/remove/change:</label></p>
+            <p><textarea class="stylized-smooth inp-inline" name="1" id="desc" cols="50" rows="15" placeholder="Enter your message here... (Required)"></textarea></p>
             <p class="size-bigger">Ready? Then<a href="#" class="style-bold stylized-clean stylized-smooth stylized-button" onclick="showNotification('submit-ask')">submit</a>your poll! Thanks pwp</p>
           </form>
         </div>
@@ -120,7 +130,7 @@
     }
   </style>
   <script>
-    document.getElementById("submit-ask").addEventListener("click", function(event) { 
+    document.getElementById("submit-ask-btn").addEventListener("click", function(event) { 
         event.preventDefault();
         desc = document.getElementById("desc").value;
         name = document.getElementById("name").value;
@@ -131,27 +141,31 @@
             xhr.setRequestHeader('Content-Type', 'application/json');
             xhr.send(JSON.stringify({
                 "avatar_url": "https://cdn.ntmrs.xyz/@WEBSERVER/web/ASSETS/icon_v1.jpg",
-                'content': "Hey <@1171734246067544137>! Here's a new answer!",
+                'content': "## <:marsIcon:1228409149327540305> New submit was sent <@1171734246067544137>.",
                 "embeds": [{
                   "color": 16711422,
                   "title": "From: ***"+username+"***!",
                   "description": "```\n"+message+"\n```",
                   "author": {
-                    "name": "ntmrs.xyz/@/MP",
-                    "url": "https://ntmrs.xyz/@/MP"
+                    "icon_url": "https://cdn.ntmrs.xyz/@WEBSERVER/web/ASSETS/icon_v1.jpg",
+                    "name": "notMars.xyz",
+                    "url": "https://notmars.xyz/mc/add-content"
                   },
                 }],
-                'username':'mc.notmars.xyz',
+                'username':'notmars.xyz',
             }));
         }
-
-        if (desc == "") {
-          desc = "Empty"
-        };
         if (name == "") {
-          name = "Unknown"
+          name = "<Anonymous>"
         };
-        discord_message("https://discord.com/api/webhooks/1228038102933704876/lQQzu4bB9j3897cOLgy6fNsPYng94STEKPv3TjnovXoEyqidKQ7XSpQ4DtZAiFK24ZJR",desc,name)
+        if (desc !== "") {
+          discord_message("https://discord.com/api/webhooks/1228038102933704876/lQQzu4bB9j3897cOLgy6fNsPYng94STEKPv3TjnovXoEyqidKQ7XSpQ4DtZAiFK24ZJR",desc,name)
+          showNotification('submit-success')
+        };
+        if (desc == "") {
+          showNotification('submit-failed')
+        }
+        
         document.getElementById("desc").value = ""
         document.getElementById("name").value = ""
     });
